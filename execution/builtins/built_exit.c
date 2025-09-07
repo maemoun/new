@@ -40,6 +40,5 @@ int	ft_exit(char **command, t_command *cmd, t_env *env_list, t_data *dt)
 	}
 	else
 		ft_exit_status(0, dt);
-	// cleanup_shell(cmd, env_list);
 	exit(ft_exit_status(-1, dt));
 }

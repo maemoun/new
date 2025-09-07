@@ -34,7 +34,6 @@ void	child_process(t_env *env_list, t_command *cmd, t_data *dt)
 	char	*path;
 	char	**env;
 
-	path = NULL;
 	env = NULL;
 	if (!ft_handle_redirection(cmd))
 		exit(1);
@@ -112,7 +111,6 @@ void	execute_cmd(t_command *cmd, t_env *env_list, t_data *dt)
 			perror(FORK_FAILD);
 		if (fork_pid == 0)
 		{
-			set_signals_child();
 			child_process(env_list, list, dt);
 		}
 		else

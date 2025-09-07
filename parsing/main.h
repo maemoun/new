@@ -230,10 +230,10 @@ void			ft_signals(void);
 //-----------//herdoc:
 
 void			ft_exec_cmd(t_command *cmd, t_env *env_list, t_data *dt);		
-bool			ft_process_heredocs(t_command *cmd, t_env *env_list, t_data *dt);
+bool			ft_process_heredocs(t_command *cmd, t_env *env_list);
 void			init_herdoc_fds(t_command *cmd);
 bool			ft_create_herdoc(t_env *env_list,
-					t_command *cmd, char *name, t_red_type type, t_data *dt);
+					t_command *cmd, char *name, t_red_type type);
 void			herdoc_read(t_command *cmd, char *name,
 					t_env *env_list, t_red_type type);
 char			*get_next_line(int fd);
@@ -247,7 +247,8 @@ void			execute_builtin(char **command,
 int				ft_echo(char **command);
 int				ft_cd(t_env *env_list, char *path);
 int				ft_env(t_env *env_list);
-int				ft_exit(char **command, t_command *cmd, t_env *env_list, t_data *dt);
+int				ft_exit(char **command, t_command *cmd,
+					t_env *env_list, t_data *dt);
 char			*get_value(t_env *env_list, char *key);
 int				ft_pwd(t_env *env_list);
 int				ft_unset(char **command, t_env *env_list);
@@ -305,14 +306,16 @@ void			free_list(t_env **env_list);
 void			free_list_node(t_env *node);
 void			clear_all_pipes(t_command *cmd);
 bool			wait_and_exit(int last_pid, t_data *dt);
-int				status_scan(int *status);
+int				status_scan(int *status, t_data *dt);
 
 //-------------//signals:
 
 void			ft_signals(void);
 void			ctlc_handler(int sig);
-void			ft_signals_child(void);
 void			ft_change_global(int flag);
+void			signal_herdoc(int sig);
+void			ft_signals_herdoc(void);
+t_data			*sig_data(t_data *new_dt);
 
 //------------//excute_cmd:
 
@@ -331,4 +334,5 @@ void			p2char(char ***ptr);
 void			print_command_list(t_command *head);
 void			print_command_debug(t_command *cmd);
 void			print_commands(t_command *cmds);
+
 #endif

@@ -12,7 +12,8 @@ static bool	heredoc_fork_failed(t_command *cmd, char *name_copy)
 static void	heredoc_child_process(t_command *cmd, char *name_copy,
 								t_env *env_list, t_red_type type)
 {
-	signal(SIGINT, ctlc_handler);
+	signal(SIGINT, signal_herdoc);
+	signal(SIGQUIT, SIG_IGN);
 	herdoc_read(cmd, name_copy, env_list, type);
 	free_cmd_list(cmd);
 	free_list(&env_list);
@@ -21,17 +22,17 @@ static void	heredoc_child_process(t_command *cmd, char *name_copy,
 }
 
 static bool	heredoc_parent_process(t_command *cmd,
-								char *name_copy, int fork_pid, t_data *dt)
+								char *name_copy, int fork_pid)
 {
 	free(name_copy);
 	close_fd(&cmd->fd_herdoc[1]);
-	if (wait_and_exit(fork_pid, dt))
+	if (wait_and_exit(fork_pid, cmd->data))
 		return (false);
 	return (true);
 }
 
 bool	ft_create_herdoc(t_env *env_list,
-						t_command *cmd, char *name, t_red_type type, t_data *dt)
+						t_command *cmd, char *name, t_red_type type)
 {
 	int		fork_pid;
 	char	*name_copy;
@@ -44,10 +45,10 @@ bool	ft_create_herdoc(t_env *env_list,
 		return (heredoc_fork_failed(cmd, name_copy));
 	if (fork_pid == 0)
 		heredoc_child_process(cmd, name_copy, env_list, type);
-	return (heredoc_parent_process(cmd, name_copy, fork_pid, dt));
+	return (heredoc_parent_process(cmd, name_copy, fork_pid));
 }
 
-bool	ft_process_heredocs(t_command *cmd, t_env *env_list, t_data *dt)
+bool	ft_process_heredocs(t_command *cmd, t_env *env_list)
 {
 	t_command		*tmp;
 	t_redirection	*redi;
@@ -65,7 +66,7 @@ bool	ft_process_heredocs(t_command *cmd, t_env *env_list, t_data *dt)
 					close_fd(&tmp->fd_herdoc[0]);
 				if (pipe(tmp->fd_herdoc) == -1)
 					return (print_error(errno, NULL, NULL), false);
-				if (!ft_create_herdoc(env_list, tmp, redi->name, redi->type, dt))
+				if (!ft_create_herdoc(env_list, tmp, redi->name, redi->type))
 					return (close_fd(&tmp->fd_herdoc[0]),
 						close_fd(&tmp->fd_herdoc[1]), false);
 			}

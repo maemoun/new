@@ -77,7 +77,7 @@ char	*first_expand_variable(const char *input, t_env *env,
 				st.result = expand_char_literal(&st, input[st.i]);
 				st.i++;
 			}
-			continue;
+			continue ;
 		}
 		if (input[st.i] == '\\' && input[st.i + 1] == '$' && !st.in_single)
 			handle_escaped_dollar(input, &st);
@@ -88,7 +88,6 @@ char	*first_expand_variable(const char *input, t_env *env,
 			handle_variable(input, &st);
 		else
 			handle_plain_char(input, &st);
-
-    }
+	}
 	return (st.result);
 }

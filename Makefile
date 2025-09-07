@@ -53,7 +53,6 @@ SRC     := main.c \
 		   ./execution/builtins/ft_export_utils.c \
 		   ./execution/execute_cmd.c \
 		   ./execution/ft_split.c \
-		   ./execution/ft_signals_child.c \
 		   ./execution/builtins/ft_export_utils_2.c \
 		   ./execution/ft_utils_2.c \
 		   ./execution/ft_utils_3.c \
@@ -61,6 +60,7 @@ SRC     := main.c \
 		   ./execution/free.c \
 		   ./execution/herdoc_read.c \
 		   ./execution/ft_get_path.c \
+		   ./execution/ft_signal_herdoc.c \
 		   #print.c
 
 OBJ     := $(SRC:.c=.o)

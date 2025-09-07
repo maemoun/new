@@ -43,7 +43,7 @@ void	cleanup_shell(t_command *cmd, t_env *env_list)
 	cmd = NULL;
 }
 
-int	status_scan(int *status)
+int	status_scan(int *status, t_data *dt)
 {
 	if (WIFSIGNALED(*status))
 	{
@@ -82,7 +82,7 @@ bool	wait_and_exit(int last_pid, t_data *dt)
 			}
 			else if (WIFSIGNALED(status))
 			{
-				ft_exit_status(status_scan(&status), dt);
+				ft_exit_status(status_scan(&status, dt), dt);
 			}
 		}
 	}

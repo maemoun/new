@@ -19,18 +19,41 @@ void	ft_change_global(int flag)
 	g_var = flag;
 }
 
+t_data	*sig_data(t_data *new_dt)
+{
+	static t_data	*dt = NULL;
+
+	if (new_dt)
+		dt = new_dt;
+	return (dt);
+}
+
 void	ctld_handler(void)
 {
+	t_data	*dt;
+
+	dt = sig_data(NULL);
 	printf("\033[1A");
 	printf("\033[12C");
 	printf("exit\n");
-	exit(0);
+	if (dt)
+		dt->exit_status = 0;
+	if (dt)
+		exit(dt->exit_status);
+	else
+		exit(0);
 }
 
 void	ctlc_handler(int sig)
 {
+	t_data	*dt;
+
 	(void)sig;
-	write(1, "\n", 1);
+	dt = sig_data(NULL);
+	if (dt)
+		dt->exit_status = 130;
+	if (g_var == 0)
+		write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	if (g_var == 0)

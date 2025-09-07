@@ -28,7 +28,8 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	execute_builtin(char **command, t_command *cmd, t_env *env_list, t_data *dt)
+void	execute_builtin(char **command, t_command *cmd,
+			t_env *env_list, t_data *dt)
 {
 	if (ft_check_strcmp(command[0], "echo") == 0)
 		ft_exit_status(ft_echo(command), dt);

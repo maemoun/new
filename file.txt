@@ -133,5 +133,3 @@ echo "$USER"
 exit
 oo
 export ll
-
-signal_chald.c ==> ft_exit_status(1, dt);

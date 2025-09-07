@@ -97,7 +97,7 @@ char	*expand_var(const char *src, t_data *dt, t_env *env)
 		else if (ex.src[ex.i] == '$')
 		{
 			handle_dollar(&ex, dt, env);
-			continue;
+			continue ;
 		}
 		else
 			ex.res = append_char(ex.res, ex.src[ex.i]);

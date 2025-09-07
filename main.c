@@ -55,7 +55,6 @@ static t_command	*prepare_command(char *input,
 	tmp = add_spaces_around_symbols(input);
 	free(input);
 	line = first_expand_variable(tmp, env_list, 0);
-	// printf("line: %s\n", line);
 	free(tmp);
 	cmd = parser(line, dt, env_list, tokens);
 	free(line);
@@ -71,6 +70,7 @@ int	minishell(t_data *dt, t_env *env_list)
 	tokens = NULL;
 	while (1)
 	{
+		ft_signals();
 		input = get_input(env_list);
 		cmd = prepare_command(input, dt, env_list, &tokens);
 		if (!cmd)
@@ -92,10 +92,10 @@ int	main(int ac, char **av, char **envp)
 	t_env	*env_list;
 
 	env_list = init_env(envp);
+	sig_data(&dt);
 	(void)ac;
 	(void)av;
 	dt.exit_status = 0;
-	ft_signals();
 	minishell(&dt, env_list);
 	return (0);
 }
